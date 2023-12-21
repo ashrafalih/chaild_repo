@@ -1,6 +1,6 @@
 name: 'worflow of the child repo'
 on: 
-  # workflow_dispatch:
+  workflow_dispatch:
   repository_dispatch:
     types: [trigger_workflow]
 jobs:
