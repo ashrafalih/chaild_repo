@@ -1,6 +1,8 @@
 name: 'worflow of the child repo'
 on: 
-  workflow_dispatch:
+  # workflow_dispatch:
+  repository_dispatch:
+    types: [trigger_workflow]
 jobs:
   trigger_workflow:
     runs-on: ubuntu-latest
@@ -9,4 +11,4 @@ jobs:
         shell: bash
         run: |
           echo " I am workflow of chiid repo"
-          echo "My environment variable: $MY_ENV_VARIABLE"
+          echo "Received payload: ${{ github.event.client_payload }}"
