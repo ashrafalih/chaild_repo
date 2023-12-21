@@ -1,0 +1,16 @@
+name: 'Workflow of the Child REPO'
+
+on: 
+  repository_dispatch:
+    types: [trigger_workflow]
+
+jobs:
+  trigger_workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo workflow name and payload
+        shell: bash
+        run: |
+          echo "I am workflow of child repo"
+          echo "values are : ${{ github.event.client_payload.variable1 }}"
+          echo "variable 2 value is ${{ github.event.client_payload.variable2 }}"
