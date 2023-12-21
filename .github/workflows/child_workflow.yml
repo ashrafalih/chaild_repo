@@ -8,6 +8,9 @@ jobs:
   trigger_workflow:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2  
+        
       - name: testing the repo
         run: |
           echo "which repo"
