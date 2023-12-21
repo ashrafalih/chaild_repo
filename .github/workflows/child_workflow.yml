@@ -1,0 +1,12 @@
+name: 'worflow of the child repo'
+on: 
+  workflow_dispatch:
+jobs:
+  trigger_workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo worflow name
+        shell: bash
+        run: |
+          echo " I am workflow of chiid repo"
+          sleep 120s
