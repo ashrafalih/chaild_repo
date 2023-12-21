@@ -9,4 +9,4 @@ jobs:
         shell: bash
         run: |
           echo " I am workflow of chiid repo"
-          sleep 120s
+          echo "My environment variable: $MY_ENV_VARIABLE"
