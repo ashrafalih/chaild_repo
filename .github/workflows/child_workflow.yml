@@ -8,14 +8,15 @@ jobs:
   trigger_workflow:
     runs-on: ubuntu-latest
     steps:
+      - name: testing the repo
+        run: |
+          echo "which repo"
+          git remote -v
+          git status
       - name: Echo workflow name and payload
         shell: bash
         run: |
           echo "I am workflow of child repo"
           echo "values are : ${{ github.event.client_payload.variable1 }}"
           echo "variable 2 value is ${{ github.event.client_payload.variable2 }}"
-      - name: testing the repo
-        run: |
-          echo "which repo"
-          git remote -v
-          git status
+      
