@@ -1,14 +1,29 @@
-name: 'worflow of the child repo'
+name: 'Workflow of the Child REPO'
+
 on: 
-  workflow_dispatch:
   repository_dispatch:
     types: [trigger_workflow]
+
 jobs:
   trigger_workflow:
     runs-on: ubuntu-latest
     steps:
-      - name: Echo worflow name
+      - name: Echo workflow name and payload
         shell: bash
         run: |
-          echo " I am workflow of chiid repo"
+          echo "I am workflow of child repo"
           echo "Received payload: ${{ github.event.client_payload }}"
+# name: 'worflow of the child repo'
+# on: 
+#   workflow_dispatch:
+#   repository_dispatch:
+#     types: [trigger_workflow]
+# jobs:
+#   trigger_workflow:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Echo worflow name
+#         shell: bash
+#         run: |
+#           echo " I am workflow of chiid repo"
+#           echo "Received payload: ${{ github.event.client_payload }}"
