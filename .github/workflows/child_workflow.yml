@@ -37,7 +37,7 @@ jobs:
           fi
   
       - name: Create branch if not exists
-        if: branch-check.outputs.branch_exists == 'false'
+        if: steps.branch-check.outputs.branch_exists == 'false'
         run: git checkout -b $branch_name
               
           
