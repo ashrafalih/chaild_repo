@@ -25,19 +25,20 @@ jobs:
           echo "path from the parent repo is: ${{ github.event.client_payload.path }}"
           echo "tag from the parent repo is: ${{ github.event.client_payload.tag }}"
 
-      - name: Check if branch exists and create if not exists
+      - name: Determine if branch exists
+        id: branch-check
         run: |
-          git remote -v
-          git status
-          if git show-ref --quiet "refs/heads/$branch_name"; then
-            echo "Branch $branch_name exists."
+          if git show-ref "refs/heads/$branch_name" > /dev/null; then
+            echo "Branch exists"
+            echo "::set-output name=branch_exists::true"
           else
-            echo "Branch $branch_name does not exist."
-            echo "Creating branch $branch_name..."
-            git checkout -b $branch_name
-            git push origin $branch_name
-            git branch | grep $branch_name
+            echo "Branch does not exist"
+            echo "::set-output name=branch_exists::false"
           fi
+  
+      - name: Create branch if not exists
+        if: branch-check.outputs.branch_exists == 'false'
+        run: git checkout -b $branch_name
               
           
       
