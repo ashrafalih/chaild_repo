@@ -25,20 +25,30 @@ jobs:
           echo "path from the parent repo is: ${{ github.event.client_payload.path }}"
           echo "tag from the parent repo is: ${{ github.event.client_payload.tag }}"
 
-      - name: Determine if branch exists
-        id: branch-check
-        run: |
-          if git show-ref "refs/heads/${branch_name}" > /dev/null; then
-            echo "Branch exists"
-            echo "::set-output name=branch_exists::true"
-          else
-            echo "Branch does not exist"
-            echo "::set-output name=branch_exists::false"
-          fi
+      # - name: Determine if branch exists
+      #   id: branch-check
+      #   run: |
+      #     if git show-ref "refs/heads/${branch_name}" > /dev/null; then
+      #       echo "Branch exists"
+      #       echo "::set-output name=branch_exists::true"
+      #     else
+      #       echo "Branch does not exist"
+      #       echo "::set-output name=branch_exists::false"
+      #     fi
   
-      - name: Create branch if not exists
-        if: steps.branch-check.outputs.branch_exists == 'false'
-        run: git checkout -b $branch_name
+      # - name: Create branch if not exists
+      #   if: steps.branch-check.outputs.branch_exists == 'false'
+      #   run: git checkout -b $branch_name
+      - name: Check if branch exists
+        run: |
+          export BRANCHES=$(git branch -r)
+          BRANCH_NAME_TO_CHECK="${{ github.event.client_payload.branch_name }}"
+      
+          if echo "$BRANCHES" | grep -q "origin/$BRANCH_NAME_TO_CHECK"; then
+            echo "Branch $BRANCH_NAME_TO_CHECK exists."
+          else
+            echo "Branch $BRANCH_NAME_TO_CHECK does not exist."
+          fi
               
           
       
