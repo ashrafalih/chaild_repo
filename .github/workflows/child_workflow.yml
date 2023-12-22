@@ -20,7 +20,8 @@ jobs:
         shell: bash
         run: |
           echo "I am workflow of child repo"
-          echo "the branch name is : ${{ github.event.client_payload.branch_name }}"
+          branch_name=$(basename "${{ github.event.client_payload.branch_name }}")
+          echo "the branch name is : $branch_name"
           echo "path from the parent repo is: ${{ github.event.client_payload.path }}"
           echo "tag from the parent repo is: ${{ github.event.client_payload.tag }}"
           
