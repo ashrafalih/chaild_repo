@@ -42,7 +42,7 @@ jobs:
       - name: Check if branch exists
         run: |
           export BRANCHES=$(git branch -r)
-          BRANCH_NAME_TO_CHECK="${{ github.event.client_payload.branch_name }}"
+          BRANCH_NAME_TO_CHECK="$branch_name"
       
           if echo "$BRANCHES" | grep -q "origin/$BRANCH_NAME_TO_CHECK"; then
             echo "Branch $BRANCH_NAME_TO_CHECK exists."
