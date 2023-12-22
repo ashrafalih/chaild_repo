@@ -20,8 +20,7 @@ jobs:
         shell: bash
         run: |
           echo "I am workflow of child repo"
-          branch_name=$(basename "${{ github.event.client_payload.branch_name }}")
-          echo "the branch name is : $branch_name"
+          echo "the branch anem is:${{ github.event.client_payload.branch_name }}"
           echo "path from the parent repo is: ${{ github.event.client_payload.path }}"
           echo "tag from the parent repo is: ${{ github.event.client_payload.tag }}"
 
@@ -42,7 +41,7 @@ jobs:
       - name: Check if branch exists if not create the branch
         run: |
           export BRANCHES=$(git branch -r)
-          BRANCH_NAME_TO_CHECK="$branch_name"
+          BRANCH_NAME_TO_CHECK="${{ github.event.client_payload.branch_name }}"
       
           if echo "$BRANCHES" | grep -q "origin/$BRANCH_NAME_TO_CHECK"; then
             echo "Branch $BRANCH_NAME_TO_CHECK exists."
