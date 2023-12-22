@@ -1,0 +1,52 @@
+name: 'Workflow of the Child REPO'
+
+on: 
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Name of the branch on which values files will be updated'
+        required: true
+      path:
+        description: 'Path in the max-kubernetes repo where values files are located'
+        required: true
+      tag:
+        description: 'Tag value to update the tag line in the values files'
+        required: true  
+  
+  repository_dispatch:
+    types: [trigger_workflow]
+
+jobs:
+  trigger_workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2  
+        
+      - name: testing the repo
+        run: |
+          echo "which repo"
+          git remote -v
+          git status
+          
+      - name: Echo getting the values from the parent workflow to child workflow
+        shell: bash
+        run: |
+          echo "I am workflow of child repo"
+          echo "the branch name is: $(basename "${{ github.event.client_payload.branch_name }}")"
+          echo "path from the parent repo is: ${{ github.event.client_payload.path }}"
+          echo "tag from the parent repo is: ${{ github.event.client_payload.tag }}"
+          echo "testing the branches"
+          export BRANCHES=$(git branch -r)
+          MY_BRANCH="$(basename "${{ github.event.client_payload.branch_name }}")"
+          if echo "$BRANCHES" | grep -q "origin/$MY_BRANCH"; then
+            echo "Branch $MY_BRANCH exists."
+          else
+            echo "Branch $MY_BRANCH does not exist."
+            echo "Creating branch $MY_BRANCH..."
+            git checkout -b $MY_BRANCH
+            # git config user.email "actions@github.com"
+            # git config user.name "GitHub Actions"
+            git push origin $MY_BRANCH
+            git branch | grep $MY_BRANCH
+          fi
