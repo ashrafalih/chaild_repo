@@ -23,32 +23,17 @@ jobs:
           echo "the branch anem is:${{ github.event.client_payload.branch_name }}"
           echo "path from the parent repo is: ${{ github.event.client_payload.path }}"
           echo "tag from the parent repo is: ${{ github.event.client_payload.tag }}"
-
-      # - name: Determine if branch exists
-      #   id: branch-check
-      #   run: |
-      #     if git show-ref "refs/heads/${branch_name}" > /dev/null; then
-      #       echo "Branch exists"
-      #       echo "::set-output name=branch_exists::true"
-      #     else
-      #       echo "Branch does not exist"
-      #       echo "::set-output name=branch_exists::false"
-      #     fi
-  
-      # - name: Create branch if not exists
-      #   if: steps.branch-check.outputs.branch_exists == 'false'
-      #   run: git checkout -b $branch_name
-      - name: Check if branch exists if not create the branch
-        run: |
+          echo "testing the branches"
           export BRANCHES=$(git branch -r)
-          BRANCH_NAME_TO_CHECK="${{ github.event.client_payload.branch_name }}"
-      
-          if echo "$BRANCHES" | grep -q "origin/$BRANCH_NAME_TO_CHECK"; then
-            echo "Branch $BRANCH_NAME_TO_CHECK exists."
+          MY_BRANCH="${{ github.event.client_payload.branch_name }}"
+          if echo "$BRANCHES" | grep -q "origin/$MY_BRANCH"; then
+            echo "Branch $MY_BRANCH exists."
           else
-            git checkout -b $branch_name
-            echo "$branch_name created"
+            echo "Branch $MY_BRANCH does not exist."
+            echo "Creating branch $MY_BRANCH..."
+            git checkout -b $MY_BRANCH
+            git push origin $MY_BRANCH
+            git branch | grep $MY_BRANCH
           fi
-              
  ###         
       
