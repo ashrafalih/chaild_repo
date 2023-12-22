@@ -33,6 +33,8 @@ jobs:
             echo "Branch $MY_BRANCH does not exist."
             echo "Creating branch $MY_BRANCH..."
             git checkout -b $MY_BRANCH
+            git config user.email "actions@github.com"
+            git config user.name "GitHub Actions"
             git push origin $MY_BRANCH
             git branch | grep $MY_BRANCH
           fi
