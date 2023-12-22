@@ -16,16 +16,17 @@ jobs:
           echo "which repo"
           git remote -v
           git status
+          
       - name: Echo getting the values from the parent workflow to child workflow
         shell: bash
         run: |
           echo "I am workflow of child repo"
-          echo "the branch anem is:${{ github.event.client_payload.branch_name }}"
+          echo "the branch name is: $(basename "${{ github.event.client_payload.branch_name }}")"
           echo "path from the parent repo is: ${{ github.event.client_payload.path }}"
           echo "tag from the parent repo is: ${{ github.event.client_payload.tag }}"
           echo "testing the branches"
           export BRANCHES=$(git branch -r)
-          MY_BRANCH="${{ github.event.client_payload.branch_name }}"
+          MY_BRANCH="$(basename "${{ github.event.client_payload.branch_name }}")"
           if echo "$BRANCHES" | grep -q "origin/$MY_BRANCH"; then
             echo "Branch $MY_BRANCH exists."
           else
@@ -35,5 +36,3 @@ jobs:
             git push origin $MY_BRANCH
             git branch | grep $MY_BRANCH
           fi
- ###         
-      
