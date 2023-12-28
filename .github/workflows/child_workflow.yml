@@ -36,7 +36,11 @@ jobs:
           echo "the branch name is: $(basename "${{ github.event.client_payload.branch_name }}")"
           echo "path from the parent repo is: ${{ github.event.client_payload.path }}"
           echo "tag from the parent repo is: ${{ github.event.client_payload.tag }}"
-          echo "testing the branches"
+          echo "chekcing for the branches"
+
+          # Fetch the latest remote branches
+          git fetch origin --prune
+          
           export BRANCHES=$(git branch -r)
           echo "BRANCHES are: $BRANCHES"
           MY_BRANCH="$(basename "${{ github.event.client_payload.branch_name }}")"
