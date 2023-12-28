@@ -37,7 +37,7 @@ jobs:
           echo "path from the parent repo is: ${{ github.event.client_payload.path }}"
           echo "tag from the parent repo is: ${{ github.event.client_payload.tag }}"
           echo "testing the branches"
-          export BRANCHES=$(git branch -r)
+          export BRANCHES=$(git branch -a)
           MY_BRANCH="$(basename "${{ github.event.client_payload.branch_name }}")"
           if echo "$BRANCHES" | grep -q "origin/$MY_BRANCH"; then
             echo "Branch $MY_BRANCH exists."
